@@ -15,7 +15,7 @@ int main()
     
     //State the purpose of the program
     cout << "The purpose of this program is to calculate the mean,
-             median, and mode of a given set of numbers" << endl;
+             "median, and mode of a given set of numbers" << endl;
 
     //Asks the user how many numbers does the array have to go
     cout << "What is the limit you want to set for your calcuations: ";
