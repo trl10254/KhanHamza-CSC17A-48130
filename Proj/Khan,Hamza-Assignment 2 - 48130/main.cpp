@@ -14,7 +14,7 @@ using namespace std;
 int *fillArray(int,int);
 void printArray(int *,int,int);
 int *sort(int *,int);
-int *mode(int *,int);
+int mode(int *,int);
 float avg(int *,int);
 float median(int *,int);
 
@@ -39,6 +39,10 @@ int main(int argc, char** argv)
     //Show the median of the function
     cout << fixed << setprecision(2) << endl;
     cout << "The median of the function is: " << median(a,size) << endl;
+    
+    //Shows the mode of the function
+    cout << "The mode of the function is: " << mode(a,size) << endl;
+    
     //Deallocate memory and exit
     delete []a;
     delete []b;
@@ -112,20 +116,54 @@ float avg(int *a,int size)
 float median(int *a,int size)
 {
     float median;
+    float mediansum;
+    int middle1;
+    int middle2;
+    int odd;
     
     //Find out if the system is even or odd
     for (int i=0; i<size; i++)
     {
-        if(size % 2 != 0) //Decides if the function is odd
+        if(size % 2 == 0) //Decides if the function is even
         {
-            median = a[(size+1/2)-1];
+            middle1 = size / 2;        
+            middle2 = size / 2 - 1; //go back 1 position to get 2nd middle number
+            mediansum = a[middle1] + a[middle2];
+            median = mediansum / 2;
         }
         else
         {
-            median = a[(size/2) - 1];
-            median = a [size/2];
+            if(size % 2 != 2) //Decides if function is odd
+            {
+                odd =((size - 1) / 2);    //Minus 1 because index starts at 0
+                median = a[odd];
+            }
         }
     }
- 
     return median;
+}
+
+int mode(int *a,int size)
+{
+    int temp_mode = 1;          //Checking if instance > 1
+    int max_mode = 1;             //Max # times number appears
+    
+    for (int i=0; i < size; i++)
+    {
+        int aVal = a[i];
+        if(aVal == a[i+1])
+        {
+            temp_mode++;
+        }
+        if(temp_mode > max_mode)
+        {
+            max_mode = temp_mode;
+        }
+        if(aVal != a[i + 1])
+        {
+            temp_mode=1;
+        }
+    }
+    
+    return max_mode;
 }
