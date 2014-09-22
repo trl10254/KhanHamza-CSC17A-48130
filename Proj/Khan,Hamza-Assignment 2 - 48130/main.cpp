@@ -145,7 +145,7 @@ float median(int *a,int size)
 
 int mode(int *a,int size)
 {
-    int temp_mode = 1;          //Checking if instance > 1
+    int min_mode = 1;          //Checking if instance > 1
     int max_mode = 1;             //Max # times number appears
     
     for (int i=0; i < size; i++)
@@ -153,15 +153,15 @@ int mode(int *a,int size)
         int aVal = a[i];
         if(aVal == a[i+1])
         {
-            temp_mode++;
+            min_mode++;
         }
-        if(temp_mode > max_mode)
+        if(min_mode > max_mode)
         {
-            max_mode = temp_mode;
+            max_mode = min_mode;
         }
         if(aVal != a[i + 1])
         {
-            temp_mode=1;
+            min_mode=1;
         }
     }
     
