@@ -8,29 +8,31 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <string>
+#include <cstring>
 using namespace std;
 
 //Declare function prototypes
-int length(char *sentence)
-{
-    //Declare local variables
-    int length = strlen(sentence);
-    int spacecount = 0;
-    
-    //Do a for loop to get the total length
-    for (int i = 0; i <= length; i++)
-    {
-        if (sentence[i] == ' ')
-        {
-            spacecount++;
-        }
-    }
-    
-}
+int length(char *chararray);
+void Chapter10Problem1();
+
 int main()
 {
-    const int SIZE = 50;
+   
+    
+    return 0;
+}
+
+
+//Chapter 10 Problem 1: Write a function that returns an integer and accepts a 
+//pointer to a C-string as an argument. The function should count the number of
+//characters in the string and return that number. Demonstrate the function in a
+//simple program that asks the user to input a string, passes it to the function,
+//and then displays the function's return value.
+
+void Chapter10Problem1()
+{
+    
+const int SIZE = 50;
     char sentence[SIZE];
     int count;
     
@@ -46,14 +48,23 @@ int main()
     cout << "In your sentence you have a total of " << count; 
     cout << " characters in it." << endl;
     
-    return 0;
+    return Chapter10Problem1;
 }
-
-
-//Chapter 10 Problem 1: Write a function that returns an integer and accepts a 
-//pointer to a C-string as an argument. The function should count the number of
-//characters in the string and return that number. Demonstrate the function in a
-//simple program that asks the user to input a string, passes it to the function,
-//and then displays the function's return value.
-
+    
+int length(char *chararray)
+{
+    //Declare local variables
+    int length = strlen(chararray);
+    int spacecount = 0;
+    
+    //Do a for loop to get the total length
+    for (int i = 0; i <= length; i++)
+    {
+        if (chararray[i] == ' ')
+        {
+            spacecount++;
+        }
+    }
+    
+}
 
