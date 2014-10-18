@@ -12,105 +12,88 @@
 
 using namespace std;
 
-//Structure for the character creator
-struct Character
+//Declare structure
+struct charactercreator
 {
-    char name;
-    char location;
-    int age;
+    string firstname;
+    string lastname;
+    int choice;
 };
 
 //Declare function prototypes
-Character getInfo();
-void startgame();
 
-int main(int argc, char** argv) 
+int main()
 {
+    //Character profile in a structure
+    charactercreator creation;
+    
     //Declare local variables
-    int option;
-    char cont = 'N';
+    string firstname;
+    string lastname;
+    int choice;
     
-    cout << " Land of Osirus (alpha) " << endl << endl;
+    //Set up the back story to the adventure
+    cout << "There was a legend a told by the native Americans saying that ";
+    cout << "every time you go to sleep at night your soul travels to ";
+    cout << "different worlds and that in the mornings it travels back to your ";
+    cout << "body, but if it doesn't get back to your body in time it is trapped ";
+    cout << "in that world until nightfall. Until your soul doesn't get back to ";
+    cout << "your body you are left in a coma and after three days you and your ";
+    cout << "soul start to die." << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
     
-    do
-    {
-        cout << "Please select what you want to do." << endl;
-        cout << "1. Start game" << endl;
-        cout << "2. Quit" << endl;
-        cin >> option; 
-        
-        do
-        {
-            switch (option)
-            {
-                case 1: 
-                    startgame();
-                    break;
-                    
-                case 2:
-                    break;
-                    
-                default:
-                    cout << "Please chose either 1 or 2. Thank you.";
-                    break;
-            }
-        }
-        while (option < 1 || option > 3);
-        
-        cout << "Do you want to run the game again? If so press 1 if not press 2";
-        cin >> cont;  
-    }
+    cout << "You: Night guys I'm gonna go to sleep." << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
     
-    while (toupper(cont) == 1);
+    //Opening scene
+    cout << "Tap. . . Tap. . . Tap" << endl;
+    cout << "Mysterious voice: Get up stranger or else you'll be in danger. ";
+    cout << "Get up now!"<< endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "You: Ugh. Where am I and what's up with the bright light?" << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "Mysterious person: We need to hurry up or else you'll be captured. ";
+    cout << "Your our last hope of survival. Hurry up" << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
+  
+    cout << "Both you and the mysterious person hide in a near by bush." << endl;
+    cout << "Then a horse with a rider on top of it came out of a bush with ";
+    cout << "10 guards following it." << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "Horse rider: Look around everywhere look under ever rock, bush, ";
+    cout << "cave and tree. If you have to burn this entire forest down, but ";
+    cout << "find the chosen one." << endl;
+    system("read -p \"Press enter...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "You get a closer look at the mysterious person who saved you and ";
+    cout << "reminds you of someone you know." << endl;
+    system("read -p \"Press enter to continue...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "You: Hey are you by any chance Dumbuldore because you look a lot like him.";
+    system("read -p \"Press enter to continue...\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    //Get the players name
+    cout << "Mysterious person: Who the hell is Dumbuldore, but forget about that. ";
+    cout << "I need to know your name to know whether to not to save you.";
+    cout << "What is your first name.";
+    getline(cin,creation.firstname);
+    
+    cout << "What is your last name.";
+    getline(cin,creation.lastname);
+    
+    cout << "Mysterious person: So your name is " << creation.firstname << " ";
+    cout << creation.lastname << endl;
+    
 }
-
-void startgame()
-{
-    //Declare local variables
-    
-    
-    //Set up the legend
-    cout << "There's a legend that has been passed around for centuries about ";
-    cout << "portals opening up in the middle of no where and taking poor souls ";
-    cout << "to an unfamiliar land and when they return that person isn't the same ";
-    cout << "person that disappeared. Oh well it's just a legend so it can't be true.";
-    cout << "Or is it." << endl << endl;
-    
-    //Go into the character creator to set up player profile
-    getInfo();
-    
-    
-    
-    
-    
-}
-
-Character getInfo()
-{
-    Character creator;
-    
-    cout << "Welcome to the character creator v0.1";
-            
-    //Name your character
-    cout << "Please enter a name that you want to be called: ";
-    cin >> creator.name;
-    
-    //Get the age of the character
-    cout << "What age do you want to be: ";
-    cout << "Just write the number don't spell it out.";
-    cin >> creator.age;
-    
-    //Get the start location of the character
-    cout << "Where are you at: ";
-    cout << "You can make up the location";
-    cin >> creator.location;
-    
-    //Display the information of the character
-    cout << "The name you want to be called is: " << creator.name << endl;
-    cout << "You are from: " << creator.location << endl;
-    cout << "The age you want to be is: " << creator.age << endl;
-    
-    return (creator.name, creator.age, creator.location);
-}
-
-
