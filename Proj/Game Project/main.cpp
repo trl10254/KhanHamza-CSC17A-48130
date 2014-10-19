@@ -136,7 +136,7 @@ int main()
     //Guard taunt
     cout << "Guard: So you can beat me with that weapon. I laugh at that ";
     cout << "chosen one. Let's fight." << endl;
-    system("read -p \"Press enter to continue...\" -n 1 -s");
+    system("read -p \"Press enter to continue\" -n 1 -s");
     cout << " " << endl << endl;
   
 }
@@ -210,8 +210,6 @@ inventory getInfo()
     cout << "1. Weapons" << endl;
     cout << "2. Potions" << endl;
     cout << "3. Armor" << endl;
-    
-    
     
 }
 
