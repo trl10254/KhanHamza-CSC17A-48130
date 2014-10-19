@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <cstring>
 
 using namespace std;
 
@@ -17,10 +16,22 @@ struct charactercreator
 {
     string firstname;
     string lastname;
-    int choice;
+};
+
+struct inventory
+{
+    string weapon;
+    string potions;
+    string armor;
 };
 
 //Declare function prototypes
+int weaponstarter(int, int, int);
+void starterguard(int);
+void display(int, int);
+int death(int , int);
+inventory getInfo();
+
 
 int main()
 {
@@ -31,6 +42,8 @@ int main()
     string firstname;
     string lastname;
     int choice;
+    int baseHP = 30;
+    int maxHP = 120;
     
     //Set up the back story to the adventure
     cout << "There was a legend a told by the native Americans saying that ";
@@ -87,13 +100,118 @@ int main()
     //Get the players name
     cout << "Mysterious person: Who the hell is Dumbuldore, but forget about that. ";
     cout << "I need to know your name to know whether to not to save you.";
-    cout << "What is your first name.";
+    cout << "What is your first name: ";
     getline(cin,creation.firstname);
     
-    cout << "What is your last name.";
+    cout << "What is your last name: ";
     getline(cin,creation.lastname);
     
     cout << "Mysterious person: So your name is " << creation.firstname << " ";
     cout << creation.lastname << endl;
+    system("read -p \"Press enter to continue\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "Mysterious person: You are the one the prophecy talked about follow ";
+    cout << "me." << endl;
+    system("read -p \"Press enter to continue\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "Guard: Looks like I just hit the jackpot capturing both the chosen ";
+    cout << "one and the rogue wizard Nucktuck" << endl;
+    system("read -p \"Press enter to continue\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    cout << "Nucktuck: Well " << creation.firstname << " I must take your leave. ";
+    cout << "I leave you with a sword and a stick. Good Luck and find me if you ";
+    cout << "live. Every man for himself!" << endl;
+    system("read -p \"Press enter to continue\" -n 1 -s");
+    cout << " " << endl << endl;
+    
+    weaponstarter(int, int, int); 
+    
+    cout << "Your weapon of choice is now in your inventory." << endl;
+    system("read -p \"Press enter to continue\" -n 1 -s");
+    cout << " " << endl;
+    
+    //Guard taunt
+    cout << "Guard: So you can beat me with that weapon. I laugh at that ";
+    cout << "chosen one. Let's fight." << endl;
+    system("read -p \"Press enter to continue...\" -n 1 -s");
+    cout << " " << endl << endl;
+  
+}
+
+int weaponstarter (int, int, int)
+{
+    //Declare local variables
+    int choice;
+    int minattack = 0;
+    int maxattack = 0;
+    int defense = 0;
+    
+    //Starter weapons
+    cout << "Please choose a weapon of your liking" << endl;
+    cout << "1. Basic Sword" << endl;
+    cout << "Attack: 3" << endl;
+    cout << "Defense: 5" << endl << endl;
+    
+    cout << "2. Basic Stick" << endl;
+    cout << "Attack: 8" << endl;
+    cout << "Defense: 3" << endl << endl;
+    
+    cin >> choice;
+    
+    do
+    {
+        switch(choice)
+        {
+            case 1: 
+                cout << "You have chosen the noble sword. Good luck.";
+                break;
+                
+            case 2:
+                cout << "You have chosen the mighty stick. Good luck.";
+                break;
+                
+            default:
+                cout << "That is in invalid choice please chose either enter 1 or 2";
+                break;
+        }
+    }
+    while (choice < 1 || choice > 3);
+    
+    if (choice == 1)
+    {
+        minattack = 1;
+        maxattack = 3;
+        defense = 5;
+    }
+    
+    else if (choice == 2)
+    {
+        minattack = 4;
+        maxattack = 8;
+        defense = 3;        
+    }
+    
+    return(minattack, maxattack, defense);
+}
+
+inventory getInfo()
+{
+    //Declare local variables
+    int weapons;
+    int potions;
+    int armor;
+    int choice;
+    
+    //Inventory screen
+    cout << "Welcome to the inventory." << endl;
+    cout << "1. Weapons" << endl;
+    cout << "2. Potions" << endl;
+    cout << "3. Armor" << endl;
+    
+    
     
 }
+
