@@ -33,7 +33,7 @@ struct weaponselection
 };
 
 //Declare function prototypes
-void starterguard(int);
+void starterguard(int &);
 void display(int, int);
 int death(int , int);
 inventory getInfo();
