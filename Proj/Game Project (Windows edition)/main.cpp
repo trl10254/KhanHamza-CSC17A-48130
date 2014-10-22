@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <iostream>
 
+
 using namespace std;
 
 //Declare structure
@@ -33,10 +34,9 @@ struct weaponselection
 };
 
 //Declare function prototypes
-void starterguard(int &);
+float starterguard weaponchoice(weaponselection, *);
 void display(int, int);
 int death(int , int);
-inventory getInfo();
 weaponselection weaponchoice(weaponselection);
 
 int main()
@@ -150,7 +150,9 @@ int main()
     system("read -p \"Press enter to continue\" -n 1 -s");
     cout << " " << endl << endl; 
     
-    return 0;
+    //Go to the enemy attack menu
+    starterguard(weapon *baseHP)
+ 
 }
 
 
@@ -176,11 +178,13 @@ int main()
         switch(choice)
         {
             case 1: 
-                cout << "You have chosen the noble sword. Good luck.";
+                cout << "You have chosen the noble and defensive sword. Good luck.";
+                cout << endl;
                 break;
                 
             case 2:
-                cout << "You have chosen the mighty stick. Good luck.";
+                cout << "You have chosen the strong and mighty stick. Good luck."; 
+                cout << endl;
                 break;
                 
             default:
@@ -192,14 +196,12 @@ int main()
     
     if (choice == 1)
     {
-        weapon.speed = 1;
         weapon.attack = 3;
         weapon.defence = 5;
     }
     
     else if (choice == 2)
     {
-        weapon.speed = 4;
         weapon.attack = 8;
         weapon.defence = 3;        
     }
@@ -207,19 +209,15 @@ int main()
     return weapon;
 }
 
-inventory getInfo()
-{
-    //Declare local variables
-    int weapons;
-    int potions;
-    int armor;
-    int choice;
-    
-    //Inventory screen
-    cout << "Welcome to the inventory." << endl;
-    cout << "1. Weapons" << endl;
-    cout << "2. Potions" << endl;
-    cout << "3. Armor" << endl;
-    
-}
-
+ float starterguard(weaponselection *)
+ {
+     //Declare local variables
+     float guardHP;
+     float guardAttk;
+     
+     //Get the guard Attack
+     
+     
+     
+ }
+ 
