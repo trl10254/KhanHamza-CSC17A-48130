@@ -9,10 +9,9 @@
 #include <iomanip>
 #include <iostream>
 
-
 using namespace std;
 
-//Declare structure
+//Declare structures
 struct charactercreator
 {
     string firstname;
@@ -29,15 +28,17 @@ struct inventory
 struct weaponselection
 {
     int attack;
-    int defence;
-    int speed;
+    int defense;
 };
 
 //Declare function prototypes
-float starterguard weaponchoice(weaponselection, *);
+void weaponchoice(weaponselection *);
+void guard (weaponselection *, int);
 void display(int, int);
-int death(int , int);
-weaponselection weaponchoice(weaponselection);
+int villianXP(int);
+int heroXP(int);
+int guarddeath(int, int &);
+int playerdeathbyguard(int, int &);
 
 int main()
 {
@@ -51,9 +52,6 @@ int main()
     int choice;
     int baseHP = 30;
     int maxHP = 120;
-    weapon.attack = 0;
-    weapon.defence = 0;
-    weapon.speed = 0;
     
     //Set up the back story to the adventure
     cout << "There was a legend a told by the native Americans saying that ";
@@ -138,11 +136,12 @@ int main()
     cout << " " << endl << endl;
     
     //Goes to the menu to select a weapon
-    weaponchoice(weapon);
+    weaponchoice(&weapon);
     
-    cout << "Your weapon of choice is now in your inventory." << endl;
+    cout << "Your weapon of choice is now in your inventory.";
+    cout << "(Inventory is still being made)" << endl;
     system("read -p \"Press enter to continue\" -n 1 -s");
-    cout << " " << endl;
+    cout << " " << endl << endl;
     
     //Guard taunt
     cout << "Guard: So you can beat me with that weapon. I laugh at that ";
@@ -150,13 +149,15 @@ int main()
     system("read -p \"Press enter to continue\" -n 1 -s");
     cout << " " << endl << endl; 
     
-    //Go to the enemy attack menu
-    starterguard(weapon *baseHP)
+    //Goes to the attack menu
+    guard(&weapon, baseHP);
+    
+    cout << baseHP;
  
 }
 
 
- weaponselection weaponchoice(weaponselection weapon)
+ void weaponchoice(weaponselection *w)
 {
     //Declare local variable
     int choice;
@@ -196,28 +197,151 @@ int main()
     
     if (choice == 1)
     {
-        weapon.attack = 3;
-        weapon.defence = 5;
+        w -> attack = 3;
+        w -> defense = 5;
     }
     
     else if (choice == 2)
     {
-        weapon.attack = 8;
-        weapon.defence = 3;        
+        w -> attack = 8;
+        w -> defense = 3;        
     }
     
-    return weapon;
 }
 
- float starterguard(weaponselection *)
+ void guard (weaponselection *w, int baseHP)
  {
      //Declare local variables
-     float guardHP;
-     float guardAttk;
+     int guardAttk;
+     int guardHP = 15;
+     int choice;
      
-     //Get the guard Attack
+     while(baseHP > 0 && guardHP > 0)
+     {
+         //Get the attack points of the guard
+         guardAttk = (rand()%2)+1;
+         
+         cout << "What do you want to do" << endl;
+         cout << "1. Attack" << endl;
+         cout << "2. Defense" << endl;
+         cin >> choice;
+         
+         do
+         {
+             switch(choice)
+             {
+                 case 1:
+                     cout << "You choose to attack the guard" << endl;
+                     break;
+                     
+                 case 2:
+                     cout << "You choose to shield yourself" << endl;
+                     break;
+                     
+                 default:
+                     cout << "That is in invalid choice please chose either enter 1 or 2";
+                     break;
+                
+             }
+         }
+         while(choice < 1 || choice > 3);
+         
+         if (choice == 1)
+         {
+             //Display damage done and life left on the guard
+             guardHP = guardHP - (w -> attack);
+             cout << "You did " << w -> attack << " damage on the guard." << endl;
+             cout << "The guard has " << guardHP << " HP left." << endl;
+         
+             //Display your life left after guard attacks
+             baseHP = baseHP - guardAttk;
+             cout << "You have " << baseHP << " HP left." << endl;
+             system("read -p \"Press enter to continue\" -n 1 -s");
+             cout << " " << endl << endl;
+         }
+         
+         else if (choice == 2)
+         {
+             baseHP = (w -> defense) - guardAttk;
+             cout << "You have " << baseHP << " HP left." << endl;
+             system("read -p \"Press enter to continue\" -n 1 -s");
+             cout << " " << endl << endl;
+         }
+         
+         guarddeath(guardHP, baseHP);
+         playerdeathbyguard(guardHP, baseHP);
+     }
+ }
+ 
+ int playerdeathbyguard(int guardHP, int &baseHP)
+ {
+     if (guardHP > 0 && baseHP <= 0)
+     {
+         cout << "Guard: So you thought you could beat me huh. ";
+         cout << "You couldn't even destroy me. HaHaHa" << endl;
+         cout << "Game Over" << endl;
+     }
      
+     return 0;
+ }
+ 
+ int guarddeath(int guardHP, int &baseHP) 
+ {
+     //Declare local variables
+     int choice;
+     int antagonist;
+     int protagonist;
      
+     if (guardHP <= 0 && baseHP > 0)
+     {
+         cout << "The guard has fallen" << endl;
+     }
+     
+     cout << "You have two options you can choose from" << endl;
+     cout << "1. You can kill the guard" << endl;
+     cout << "2. Or you can let the guard live" << endl;
+     cout << "Please make a selection";
+     cin >> choice;
+     
+     do
+     {
+         switch (choice)
+         {
+             case 1:
+                 cout << "You have decided to kill the guard." << " ";
+                 cout << "This may effect you later on." << endl;
+                 break;
+                 
+             case 2:
+                 cout << "You have decided to let the guard live." << " ";
+                 cout << "This may effect you later on." << endl;
+                 break;
+                 
+             default:
+                 cout << "That is in invalid choice please chose either enter 1 or 2";
+                 break;    
+         }
+     }
+     while (choice < 1 || choice > 3);
+     
+     if (choice == 1)
+     {
+         villianXP(antagonist);
+     }
+     
+     else if (choice == 2)
+     {
+         heroXP(protagonist);
+     }
+ }
+ 
+ int villianXP(int antagonist)
+ {
+     
+ }
+ 
+ int heroXP(int protagonist)
+ {
      
  }
  

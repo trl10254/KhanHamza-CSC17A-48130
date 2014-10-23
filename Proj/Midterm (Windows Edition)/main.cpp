@@ -47,10 +47,11 @@ bool isOvrdrwn(account *c);
 
 //Functions for Problem 4
 int *intArray(int, int=4);
-int encrypt(int *, int=4);
-int decrypt(int *, int=4);
+int *encrypt(int *, int=4);
+int *decrypt(int *, int=4);
 void swap(int &a, int &);
 bool isValid(int*, int =4);
+void print(int *array, int size);
 
 //Functions for Problem 5
 template<class T>
@@ -284,32 +285,56 @@ void Problem3()
 //All the digits must be read with one cin statement.
 
 void Problem4()
-{
-   cout << "Do you want to encrypt or decrypt a number.\n"
-            "Enter 1 to encrypt\n"
-            "Enter 2 to decrypt: ";
-    int ans;
-    cin >> ans;
+ {
+    //Declare local variable
+    const int nDigit=4; //Size of array
     int num;
-    cout << "Enter your number: ";
+    int cont;
+    
+    //Ask the user for input
+    cout << "Enter your numbers from 0-7: ";
     cin >> num;
     int *numArray = intArray(num);
-    // check whether number entered is valid
-    if (isValid(numArray)) {
-        if ( ans == 1) {
-            cout << "Your encrypted number is: " << encrypt(numArray);
+   
+    // check if number is valid. No 8s or 9s
+    if (isValid(numArray)) 
+    {
+        /// Ask user what to do with number
+        cout << "Do you want your number encrypted or decrypted.\n"
+                "Enter 1 to encrypt\n"
+                "Enter 2 to decrypt\n";
+        int ans;
+        cin >> ans;
+        
+        // user want to encrypt number
+        if (ans == 1) 
+        {
+            numArray = encrypt(numArray);
+            cout << "Your encrypted number is: ";
+            print(numArray, nDigit);
         }
-        else if (ans == 2) {
-            cout << "Your decrypted number is: " << decrypt(numArray);
+        
+        // user wants to decrypt number
+        else if (ans == 2) 
+        {
+            numArray= decrypt(numArray);
+            cout << "Your decrypted number is: ";
+            print(numArray, nDigit);
         }
         else
             cout << "Invalid choice: ";
     }
-    // number was not valid
-    else
-        cout << "Number was not valid.\n";
     
-    cout << endl; 
+    // number was not valid
+    else 
+    {
+        print(numArray, nDigit);
+        cout << " is not valid.\n";
+    }
+    
+    delete []numArray;
+    cout << endl;
+    
 }
 
 int *intArray(int num, int size) 
@@ -321,6 +346,7 @@ int *intArray(int num, int size)
         ret[i] = num % 10;
         num /= 10;
     }
+    
     return ret;
 }
 
@@ -333,12 +359,13 @@ bool isValid(int*array, int size)
     return true;
 }
 
-int encrypt(int *array, int size) 
+int *encrypt(int *array, int size)
 {
     for (int i = 0; i != size; ++i)
     {
         // first add three to each digit
         *(array+i) += 3;
+        
         // then mod it by 8
         *(array+i) %= 8;
     }
@@ -346,16 +373,11 @@ int encrypt(int *array, int size)
     // swap elements 1,2 and 3,4
     swap(*(array), *(array+1));
     swap(*(array+2), *(array+3));
-    
-    // turn array back into int;
-    int ret=0;
-    for (int i = 0, power = size-1; i != size; ++i, --power)
-        ret +=(*(array+i)*pow(10,power)); // ret + a[i] * 10^size-1)
 
-    return ret;
+    return array;
 }
 
-int decrypt(int *array, int size) 
+int *decrypt(int *array, int size) 
 {
     // swap back elements 1,2 and 3,4
     swap(*(array), *(array+1));
@@ -365,20 +387,15 @@ int decrypt(int *array, int size)
     for (int i = 0; i != size; ++i)
     {
         if (*(array+i) <3)
-            *(array+i) = 8+ *(array+i);
+            *(array+i) = 8 + *(array+i);
         else
             *(array+i) = *(array+i);
-        cout << *(array+i) << endl;
+        
         // undo the addition
         *(array+i) -= 3;
     }
-    
-    // turn array back into int;
-    int ret=0;
-    for (int i = 0, power = size-1; i != size; ++i, --power)
-        ret +=(*(array+i)*pow(10,power)); // ret + a[i] * 10^size-1)
 
-    return ret;
+    return array;
 }
 
 void swap(int &a, int &b) 
@@ -387,6 +404,14 @@ void swap(int &a, int &b)
     temp = a;
     a = b;
     b = temp;
+}
+
+void print(int *array, int size) 
+{
+    for (int i = 0; i != size; ++i) 
+    {
+        cout << array[i];
+    }
 }
 
 //Problem 5: a) Using a byte variable, what is the largest factorial that can 
@@ -461,8 +486,10 @@ void Problem6()
     cout << "0.06640625 in base 16 is 0.11" << endl;
     cout << "-2.125 in float is C0080000" << endl;
     cout << "0.06640625 in float is 3D880000" << endl;
-    cout << "46666601 in decimal is 1.47455009765625E4" << endl;
-    cout << "46666602 in decimal is 1.4745501953125E4" << endl;
-    cout << "B9999AFE in decimal is -2.92979122605174779891967773438E-4" << endl;
+    cout << "46666601 in decimal is 1.47455009765625" << endl;
+    cout << "46666602 in decimal is 1.4745501953125" << endl;
+    cout << "B9999AFE in decimal is -2.92979122605174779891967773438" << endl;
 }
+
+
 
