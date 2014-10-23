@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Midterm
+PROJECTNAME=Midterm (Mac Edition)
 
 # Active Configuration
 DEFAULTCONF=Debug

@@ -9,7 +9,8 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
-#include <algorithm> 
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -22,13 +23,8 @@ struct account
     int deposits;     // total of all deposits credited this month
 };
 
-struct Employee {
-    string name;
-    int hours;
-    int rate;
-};
-
-struct statsResult {
+struct statsResult 
+{
     float avg;
     float median;
     int *mode;   //array containing the modes
@@ -43,31 +39,19 @@ void Problem3();
 void Problem4();
 void Problem5();
 void Problem6();
-void print(int*, int, string = "");
-void swap(int &a, int &b); 
 
 //Functions for Problem 1
 void AcctInfo(account *c);
 void newBalance(account *c);
 bool isOvrdrwn(account *c);
 
-//Functions for Problem 2
-int pay(Employee*);
-void getEmpInfo(Employee*);
-void formatCheck(Employee*, string);
-bool validEmp(Employee *);
-
-//Functions for Problem 3
-statsResult *avgMedMode(int *,int);
-void mode(statsResult*, int *,int );
-void printSR(statsResult *);
-
 //Functions for Problem 4
-int *intArray(int, int = 4);
-int *encrypt(int *, int = 4);
-int *decrypt(int *, int = 4);
+int *intArray(int, int=4);
+int *encrypt(int *, int=4);
+int *decrypt(int *, int=4);
 void swap(int &a, int &);
-bool isValid(int*, int = 4);
+bool isValid(int*, int =4);
+void print(int *array, int size);
 
 //Functions for Problem 5
 template<class T>
@@ -256,96 +240,7 @@ bool isOvrdrwn(account *c)
 
 void Problem2()
 {
-   // create array large enough to hold 10 employees
-    const int nEmp = 10;
-    Employee **eArray = new Employee *[nEmp];
-    for (int i = 0; i != nEmp; ++i)
-        *(eArray+i) = new Employee;
     
-    cout << "Enter the date: ";
-    string date;
-    cin >> date;
-    cout << endl;
-    int count = 0;          // the number of employees entered
-    // get employee info
-    // and print check while employee info is valid
-    do {
-        ++count;
-        getEmpInfo(*(eArray+count));
-        if(validEmp(*(eArray+count)))
-            formatCheck(*(eArray + count), date);
-        else
-            cout << "\nInvalid info. Goodbye\n";
-    } while (validEmp(*(eArray+count)) && count != nEmp);
-
-    for (int i = 0; i != nEmp; ++i) 
-    {
-        delete *(eArray+i);
-    }
-    delete []eArray;  
-}
-
-void getEmpInfo(Employee *e) 
-{
-    cout <<  "Enter the employee name: ";
-    cin.ignore();
-    getline(cin,e->name);
-    cout << "Enter the pay rate: ";
-    cin >> e->rate;
-    cout << "Enter the hours worked: ";
-    cin >> e->hours;
-}
-
-bool validEmp(Employee *e) 
-{
-    if ( e->rate < 0 || e->hours < 0)
-        return false;
-    return true;
-}
-
-int pay(Employee* e) 
-{
-    int r0=0;             // total pay
-    int r1 = e->rate;     // r1 holds pay rate
-    int r2 = e->hours;    // r2 holds hours worked
-    int r3;               // temp
-    int r4;               // holds the hours > than pay differential
-
-    // check if triple time applies
-    if ( r2 > 40) {
-        r4 = r2 - 40;           // r4 holds hours > 40 worked
-        r3 = r1 * 3;            // triple time pay
-        r3 = r3 * r4;           // r3 holds that amount of triple time pay
-        r2 = r2 - r4;           // move hours into double time
-        r0 = r0 + r3;           // add to total pay
-    }
-
-    // check if double time applies
-    if ( r2 > 20) {
-        r4 = r2 - 20;           // r4 holds hours > 20 worked
-        r3 = r1 * 2;            // double time pay
-        r3 = r3 * r4;           // r3 holds that amount of double time pay
-        r2 = r2 - r4;           // move hours into straight time
-        r0 = r0 + r3;           // add to total pay
-    }
-
-    // check if straight time applies
-    if ( r1 > 0) {
-        r3 = r1 * r2;
-        r0 = r0 + r3;
-    }
-    return r0;
-}
-
-
-// For problem 2
-// Function prints a "check" for employee
-void formatCheck(Employee *e, string date) {
-    cout << setw(50) << right << date << endl << endl
-    << left << "Pay to the order of: " << e->name
-    << setw(25 - (e->name).size()) << right  << "$ " << pay(e) << endl;
-    
-    cout << endl;
 }
 
 //Problem 3: Write a function using the following structure and prototype.
@@ -389,10 +284,136 @@ void Problem3()
 //this condition and flag the error.  Can't read in numbers individually.  
 //All the digits must be read with one cin statement.
 
-void problem4() 
-{
+void Problem4()
+ {
+    //Declare local variable
+    const int nDigit=4; //Size of array
+    int num;
+    int cont;
+    
+    //Ask the user for input
+    cout << "Enter your numbers from 0-7: ";
+    cin >> num;
+    int *numArray = intArray(num);
+   
+    // check if number is valid. No 8s or 9s
+    if (isValid(numArray)) 
+    {
+        /// Ask user what to do with number
+        cout << "Do you want your number encrypted or decrypted.\n"
+                "Enter 1 to encrypt\n"
+                "Enter 2 to decrypt\n";
+        int ans;
+        cin >> ans;
+        
+        // user want to encrypt number
+        if (ans == 1) 
+        {
+            numArray = encrypt(numArray);
+            cout << "Your encrypted number is: ";
+            print(numArray, nDigit);
+        }
+        
+        // user wants to decrypt number
+        else if (ans == 2) 
+        {
+            numArray= decrypt(numArray);
+            cout << "Your decrypted number is: ";
+            print(numArray, nDigit);
+        }
+        else
+            cout << "Invalid choice: ";
+    }
+    
+    // number was not valid
+    else 
+    {
+        print(numArray, nDigit);
+        cout << " is not valid.\n";
+    }
+    
+    delete []numArray;
+    cout << endl;
     
 }
+
+int *intArray(int num, int size) 
+{
+    // create the array to hold the numbers
+    int *ret = new int [size];
+    for (int i = size-1; i >= 0; --i) 
+    {
+        ret[i] = num % 10;
+        num /= 10;
+    }
+    
+    return ret;
+}
+
+bool isValid(int*array, int size) 
+{
+    for (int i = 0; i != size; ++i)
+        // only 0 to 7 are allowed
+        if (*(array+i) >7)
+            return false;
+    return true;
+}
+
+int *encrypt(int *array, int size)
+{
+    for (int i = 0; i != size; ++i)
+    {
+        // first add three to each digit
+        *(array+i) += 3;
+        
+        // then mod it by 8
+        *(array+i) %= 8;
+    }
+    
+    // swap elements 1,2 and 3,4
+    swap(*(array), *(array+1));
+    swap(*(array+2), *(array+3));
+
+    return array;
+}
+
+int *decrypt(int *array, int size) 
+{
+    // swap back elements 1,2 and 3,4
+    swap(*(array), *(array+1));
+    swap(*(array+2), *(array+3));
+    
+    // unmod the numbers
+    for (int i = 0; i != size; ++i)
+    {
+        if (*(array+i) <3)
+            *(array+i) = 8 + *(array+i);
+        else
+            *(array+i) = *(array+i);
+        
+        // undo the addition
+        *(array+i) -= 3;
+    }
+
+    return array;
+}
+
+void swap(int &a, int &b) 
+{
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
+}
+
+void print(int *array, int size) 
+{
+    for (int i = 0; i != size; ++i) 
+    {
+        cout << array[i];
+    }
+}
+
 //Problem 5: a) Using a byte variable, what is the largest factorial that can 
 //be calculated.  A factorial is simply: n! = 1 * 2 * 3 * 4 ... * (n-2) * (n-1) * n
 //For instance, 1! = 1,  2! = 2,  3! = 6,  4! = 24,  5! = 120 etc....
@@ -469,5 +490,4 @@ void Problem6()
     cout << "46666602 in decimal is 1.4745501953125E4" << endl;
     cout << "B9999AFE in decimal is -2.92979122605174779891967773438E-4" << endl;
 }
-
 

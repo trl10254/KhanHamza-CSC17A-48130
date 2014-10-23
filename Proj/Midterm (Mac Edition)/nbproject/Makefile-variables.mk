@@ -7,21 +7,21 @@ CND_BASEDIR=`pwd`
 CND_BUILDDIR=build
 CND_DISTDIR=dist
 # Debug configuration
-CND_PLATFORM_Debug=Cygwin_4.x-Windows
-CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin_4.x-Windows
-CND_ARTIFACT_NAME_Debug=midterm
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin_4.x-Windows/midterm
-CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin_4.x-Windows/package
-CND_PACKAGE_NAME_Debug=midterm.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin_4.x-Windows/package/midterm.tar
+CND_PLATFORM_Debug=GNU-MacOSX
+CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
+CND_ARTIFACT_NAME_Debug=midterm__mac_edition_
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/midterm__mac_edition_
+CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
+CND_PACKAGE_NAME_Debug=midterm(macedition).tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/midterm(macedition).tar
 # Release configuration
 CND_PLATFORM_Release=GNU-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=midterm
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/midterm
+CND_ARTIFACT_NAME_Release=midterm__mac_edition_
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/midterm__mac_edition_
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=midterm.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/midterm.tar
+CND_PACKAGE_NAME_Release=midterm(macedition).tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/midterm(macedition).tar
 #
 # include compiler specific variables
 #
