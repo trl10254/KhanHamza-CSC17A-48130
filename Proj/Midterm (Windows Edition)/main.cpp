@@ -14,22 +14,35 @@
 
 using namespace std;
 
-//Structure for bank account information
+//Declare structure prototypes
 struct account 
 {
-    int acctNum;     // holds account number
-    int balance;      // holds balance at beginning of month
-    int chkTotal;     // total of all checks written this month
-    int deposits;     // total of all deposits credited this month
+    int acctNum;     
+    int balance;      
+    int chkTotal;     
+    int deposits;     
 };
 
-struct statsResult 
+struct employee
+{
+    string firstName; 
+    string lastName; 
+    float payRate; 
+    float hours; 
+    float total; 
+    int *num; 
+};
+
+struct statsResult
 {
     float avg;
     float median;
     int *mode;   //array containing the modes
     int nModes;  //number of modes in the array
     int maxFreq; //max frequency of modes
+    int num; //number of array
+    int i; //numbers in array
+    int* array;
 };
 
 //Declare function prototypes
@@ -44,6 +57,21 @@ void Problem6();
 void AcctInfo(account *c);
 void newBalance(account *c);
 bool isOvrdrwn(account *c);
+
+//Functions for Problem 2
+void input(employee[]);
+void print(employee[]);
+void initialize(employee[]);
+void numProcess(employee[]);
+
+//Functions for Problem 3
+statsResult *avgMedMode(int *,int); 
+void getinfo(int*, int);
+int *sort(int *,int);
+float avg(int *,int);
+float median(int *,int);
+int *nmode (int *,int);
+int *mode(int *,int);
 
 //Functions for Problem 4
 int *intArray(int, int=4);
@@ -240,7 +268,74 @@ bool isOvrdrwn(account *c)
 
 void Problem2()
 {
+    employee info[1];
+    initialize (info);
+    input (info);
+    print (info);
+}
+
+void initialize(employee s[])
+{
+    for (int i = 0; i < 1; i++)
+    {
+        s[i].firstName = "";
+        s[i].lastName = "";
+        s[i].payRate = 0;
+        s[i].hours = 0;
+        s[i].total = 0;
+    }
+}
+
+void input(employee s[])
+{
+    cout << "Please enter the number of employees you wish to process (1-10)";
+    cin >> employee.num;
     
+    while(employee.num < 1 || employee.num > 10);
+     
+    //user pointer to set number of employees to process *****
+    for (int i = 0; i < 1; i++)
+    {
+        
+        cout << "Please enter the first and last name: " << endl;
+        cin >> s[i].firstName >> s[i].lastName;
+        cin.ignore();
+        cout << "Please enter employee's pay rate: " << endl;
+        cin >> s[i].payRate;
+        cin.ignore();
+        cout << "Please enter the hours worked: " << endl;
+        cin >> s[i].hours;
+        cin.ignore();
+    }
+    for (int i = 0; i < 1; i++)
+    {
+        if (s[i].hours <= 20 && s[i].hours >= 0)
+        {
+            s[i].total = (s[i].payRate * s[i].hours);
+        }
+        
+        else if (s[i].hours > 20 && s[i].hours <= 40)
+        {
+            s[i].total = (s[i].payRate * 20) + (s[i].payRate * (s[i].hours - 20) * 2);
+        }
+        
+        else if (s[i].hours > 40)
+        {
+            s[i].total = (s[i].payRate * 20) + ((10 * s[i].payRate) * 2) +(s[i].payRate * (s[i].hours - 40) * 3);
+        }
+    }
+}
+
+void print(employee s[])
+{
+    for (int i = 0; i < 1; i++)
+    {
+        cout << "##THE NATIONAL KHAN BRANCH CHECK INFO##" << endl;
+        cout << "Employee name:     " << s[i].firstName << " " << s[i].lastName <<endl;
+        cout << "Hours Worked:      " << s[i].hours <<endl;
+        cout << "Pay Rate:          $" << s[i].payRate <<endl;
+        cout << "Gross Pay:         $" << s[i].total <<endl;
+    }
 }
 
 //Problem 3: Write a function using the following structure and prototype.
@@ -266,7 +361,40 @@ void Problem2()
         
 void Problem3()
 {
+    statsResult stats;
     
+    cout << "Please enter the number of elements desired: ";
+    cin >> stats.num;
+    
+    while(stats.num<=0) //while loop num <= 0
+{
+    cout << "Invalid Entry" << endl; 
+    cout << "Please enter the number of elements desired: ";
+    cin >> stats.num;
+}
+    getinfo(stats.array, stats.num);
+    cout << "The array is:" << endl;
+    
+    for(stats.i=0; stats.i < stats.num; stats.i++)
+    {
+        cout << "Element " << (stats.i+1)<< ": "<< *(stats.array + stats.i) <<endl;
+    }
+}
+
+void getinfo(int a[], int n) //get info function stores element #s 
+{
+    int i; //setting i as an int
+    for (i = 0; i < n; i++) 
+    {
+        do
+        {
+            cout << "Element " << (i+1 )<< ": ";
+            cin >> a[i]; 
+            if(a[i] < 0 || a[i] > 100) 
+            cout << "Invalid entry, Please enter a value between 0 and 100" << endl;
+        }
+        while(a[i] < 0 || a[i] > 100); 
+    }
 }
 
 //Problem 4: A company wants to transmit data over the telephone, but they are 
@@ -290,6 +418,7 @@ void Problem4()
     const int nDigit=4; //Size of array
     int num;
     int cont;
+    int ans;
     
     //Ask the user for input
     cout << "Enter your numbers from 0-7: ";
@@ -300,10 +429,9 @@ void Problem4()
     if (isValid(numArray)) 
     {
         /// Ask user what to do with number
-        cout << "Do you want your number encrypted or decrypted.\n"
-                "Enter 1 to encrypt\n"
-                "Enter 2 to decrypt\n";
-        int ans;
+        cout << "Do you want your number encrypted or decrypted." << endl;
+        cout << "Enter 1 to encrypt" << endl;
+        cout << "Enter 2 to decrypt" << endl;
         cin >> ans;
         
         // user want to encrypt number
@@ -329,7 +457,7 @@ void Problem4()
     else 
     {
         print(numArray, nDigit);
-        cout << " is not valid.\n";
+        cout << " is not valid." << endl;
     }
     
     delete []numArray;

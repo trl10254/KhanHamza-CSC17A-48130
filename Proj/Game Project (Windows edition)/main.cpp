@@ -224,6 +224,7 @@ int main()
          cout << "What do you want to do" << endl;
          cout << "1. Attack" << endl;
          cout << "2. Defense" << endl;
+         cout << "3. Do nothing" << endl;
          cin >> choice;
          
          do
@@ -238,13 +239,17 @@ int main()
                      cout << "You choose to shield yourself" << endl;
                      break;
                      
+                 case 3:
+                     cout << "You choose to do nothing" << endl;
+                     break;
+                     
                  default:
                      cout << "That is in invalid choice please chose either enter 1 or 2";
                      break;
                 
              }
          }
-         while(choice < 1 || choice > 3);
+         while(choice < 1 || choice > 4);
          
          if (choice == 1)
          {
@@ -263,6 +268,14 @@ int main()
          else if (choice == 2)
          {
              baseHP = (w -> defense) - guardAttk;
+             cout << "You have " << baseHP << " HP left." << endl;
+             system("read -p \"Press enter to continue\" -n 1 -s");
+             cout << " " << endl << endl;
+         }
+         
+         else if (choice == 3)
+         {
+             baseHP = baseHP - guardAttk;
              cout << "You have " << baseHP << " HP left." << endl;
              system("read -p \"Press enter to continue\" -n 1 -s");
              cout << " " << endl << endl;
@@ -295,49 +308,54 @@ int main()
      if (guardHP <= 0 && baseHP > 0)
      {
          cout << "The guard has fallen" << endl;
-     }
-     
-     cout << "You have two options you can choose from" << endl;
-     cout << "1. You can kill the guard" << endl;
-     cout << "2. Or you can let the guard live" << endl;
-     cout << "Please make a selection";
-     cin >> choice;
-     
-     do
-     {
-         switch (choice)
+         
+         cout << "You have two options you can choose from" << endl;
+         cout << "1. You can kill the guard" << endl;
+         cout << "2. Or you can let the guard live" << endl;
+         cout << "Please make a selection";
+         cin >> choice;
+         
+         do
          {
-             case 1:
-                 cout << "You have decided to kill the guard." << " ";
-                 cout << "This may effect you later on." << endl;
-                 break;
+             switch (choice)
+             {
+                 case 1:
+                     cout << "You have decided to kill the guard." << " ";
+                     cout << "This may effect you later on." << endl;
+                     break;
                  
-             case 2:
-                 cout << "You have decided to let the guard live." << " ";
-                 cout << "This may effect you later on." << endl;
-                 break;
+                 case 2:
+                     cout << "You have decided to let the guard live." << " ";
+                     cout << "This may effect you later on." << endl;
+                     break;
                  
-             default:
-                 cout << "That is in invalid choice please chose either enter 1 or 2";
-                 break;    
+                 default:
+                     cout << "That is in invalid choice please chose either enter 1 or 2";
+                     break;    
+             }
          }
+         
+         while (choice < 1 || choice > 3);
+             
+             if (choice == 1)
+             {
+                 villianXP(antagonist);
+             }
+             
+             else if (choice == 2)
+             {
+                 heroXP(protagonist);
+             }
      }
-     while (choice < 1 || choice > 3);
      
-     if (choice == 1)
-     {
-         villianXP(antagonist);
-     }
-     
-     else if (choice == 2)
-     {
-         heroXP(protagonist);
-     }
+     return (antagonist, protagonist);
  }
  
- int villianXP(int antagonist)
+ void villianXP(int antagonist)
  {
-     
+     //Declare local variables
+     const int SIZE = 10;
+     int *antagonist = new int [SIZE]; 
  }
  
  int heroXP(int protagonist)
