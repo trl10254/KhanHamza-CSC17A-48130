@@ -15,7 +15,7 @@
 using namespace std;
 
 //Declare structure prototypes
-struct account 
+struct bankaccount 
 {
     int acctNum;     
     int balance;      
@@ -23,26 +23,18 @@ struct account
     int deposits;     
 };
 
-struct employee
-{
-    string firstName; 
-    string lastName; 
-    float payRate; 
-    float hours; 
-    float total; 
-    int *num; 
+struct Employeedetails {
+    string name;
+    int hoursworked;
+    int rateofpay;
 };
 
-struct statsResult
-{
+struct statsResult {
     float avg;
     float median;
     int *mode;   //array containing the modes
     int nModes;  //number of modes in the array
     int maxFreq; //max frequency of modes
-    int num; //number of array
-    int i; //numbers in array
-    int* array;
 };
 
 //Declare function prototypes
@@ -53,33 +45,31 @@ void Problem4();
 void Problem5();
 void Problem6();
 
+
 //Functions for Problem 1
-void AcctInfo(account *c);
-void newBalance(account *c);
-bool isOvrdrwn(account *c);
+void AcctInfo(bankaccount *c);
+void newBalance(bankaccount *c);
+bool isOvrdrwn(bankaccount *c);
 
 //Functions for Problem 2
-void input(employee[]);
-void print(employee[]);
-void initialize(employee[]);
-void numProcess(employee[]);
+int pay(Employeedetails*);
+void getEmpInfo(Employeedetails*);
+void formatCheck(Employeedetails*, string);
+bool validEmp(Employeedetails *);
 
 //Functions for Problem 3
-statsResult *avgMedMode(int *,int); 
-void getinfo(int*, int);
-int *sort(int *,int);
-float avg(int *,int);
-float median(int *,int);
-int *nmode (int *,int);
-int *mode(int *,int);
+statsResult *avgMedMode(int *,int);
+void mode(statsResult*, int *,int );
+void printSR(statsResult *);
+void print3(int*, int, string = "");
 
 //Functions for Problem 4
-int *intArray(int, int=4);
-int *encrypt(int *, int=4);
-int *decrypt(int *, int=4);
+int *intArray(int, int = 4);
+int *encrypt(int *, int = 4);
+int *decrypt(int *, int = 4);
 void swap(int &a, int &);
-bool isValid(int*, int =4);
-void print(int *array, int size);
+bool Validator(int*, int = 4);
+void print4(int *, int); 
 
 //Functions for Problem 5
 template<class T>
@@ -137,7 +127,7 @@ int main(int argc, char** argv)
                     break;
                  
 		case 0:
-                        break;
+                    break;
                         
 		default:
                         cout<<"That's an invalid entry\n";
@@ -152,11 +142,9 @@ int main(int argc, char** argv)
         cout << "continue or any other key to ";
         cout << "cancel)";
 	cin >> cont;
-
-	}
+    }
     
     while(toupper(cont) == 'Y');
-         
 }
 
 //Problem 1: Develop an application using structures for a customer that will 
@@ -176,39 +164,49 @@ int main(int argc, char** argv)
 
 void Problem1()
 {
-    account *c = new account;
-    c->balance=1000;
+    //Declare local variables
+    bankaccount *c = new bankaccount;
+    c -> balance = 1000;
     AcctInfo(c);
     cout << endl;
     newBalance(c);
-    cout << "The current balance on account " << c->acctNum
-    << " is: " << c->balance << endl;
+    
+    cout << "The current balance on account " << c -> acctNum;
+    cout << " is: " << c -> balance << endl;
+    
     if (isOvrdrwn(c)) 
     {
         cout << "Account was over drawn";
         cout << "An Overdraft fee of 12 dollars was assessed" << endl;
-        c->balance-=12;
-        cout << "The new balance is: " << c->balance << endl;
+        c -> balance -= 12;
+        cout << "The new balance is: " << c -> balance << endl;
     }
+    
     cout << endl;
     delete c;
 }
 
-void AcctInfo(account *c) 
+void AcctInfo(bankaccount *c) 
 {
+    //Declare local variables
+    int amnt;
+    
     bool valid = false;
+    
     do 
     {
         cout << "Enter the five digit account number: ";
-        cin >> c->acctNum;
+        cin >> c -> acctNum;
+        
         // if account number is more than 5 digits
         // this result will be >= to 1
-        if (c->acctNum / 100000 < 1)
-            valid=true;
-    } while (!valid);
+        if (c -> acctNum / 100000 < 1)
+            valid = true;
+    } 
+    while (!valid);
     
     cout << "Enter the current balance in the account: ";
-    cin >> c->balance;
+    cin >> c -> balance;
     
     cout << endl;
     
@@ -217,18 +215,19 @@ void AcctInfo(account *c)
     cin >> response;
     if (response == 'y') 
     {
-        int amnt;
         do 
         {
             cout << "Enter the amount of the check. -1 to quit: ";
             cin >> amnt;
-            c->chkTotal +=amnt;
+            c -> chkTotal += amnt;
         } 
-        while(amnt>0);
+        while(amnt > 0);
     }
     cout << endl;
+    
     cout << "Were any deposits made this month. 'y' for yes: ";
     cin >> response;
+    
     if (response == 'y') 
     {
         int amnt;
@@ -236,22 +235,22 @@ void AcctInfo(account *c)
         {
             cout << "Enter the amount of the deposit. -1 to quit: ";
             cin >> amnt;
-            c->deposits += amnt;
+            c -> deposits += amnt;
         }
         
-        while(amnt>0);
+        while(amnt > 0);
     }
 }
 
-void newBalance(account *c) 
+void newBalance(bankaccount *c) 
 {
-    c->balance -= c->chkTotal;
-    c->balance += c->deposits;
+    c -> balance -= c -> chkTotal;
+    c -> balance += c -> deposits;
 }
 
-bool isOvrdrwn(account *c) 
+bool isOvrdrwn(bankaccount *c) 
 {
-    return (c->balance < 0) ? true: false;
+    return (c -> balance < 0) ? true: false;
 }
 
 //Problem 2:  Develop an application using an array of structures that will 
@@ -268,74 +267,101 @@ bool isOvrdrwn(account *c)
 
 void Problem2()
 {
-    employee info[1];
-    initialize (info);
-    input (info);
-    print (info);
-}
-
-void initialize(employee s[])
-{
-    for (int i = 0; i < 1; i++)
-    {
-        s[i].firstName = "";
-        s[i].lastName = "";
-        s[i].payRate = 0;
-        s[i].hours = 0;
-        s[i].total = 0;
-    }
-}
-
-void input(employee s[])
-{
-    cout << "Please enter the number of employees you wish to process (1-10)";
-    cin >> employee.num;
+    //Declare local variables
+    string date;
+    int count = 0;
+   const int nEmp = 10;
+    Employeedetails **eArray = new Employeedetails *[nEmp];
+    for (int i = 0; i != nEmp; ++i)
+        *(eArray+i) = new Employeedetails;
     
-    while(employee.num < 1 || employee.num > 10);
-     
-    //user pointer to set number of employees to process *****
-    for (int i = 0; i < 1; i++)
+    cout << "Enter the date: ";
+    cin >> date;
+    cout << endl;
+    
+    // get employee info
+    // and print check while employee info is valid
+    do 
     {
+        ++count;
+        getEmpInfo(*(eArray+count));
+        if(validEmp(*(eArray+count)))
+            formatCheck(*(eArray + count), date);
         
-        cout << "Please enter the first and last name: " << endl;
-        cin >> s[i].firstName >> s[i].lastName;
-        cin.ignore();
-        cout << "Please enter employee's pay rate: " << endl;
-        cin >> s[i].payRate;
-        cin.ignore();
-        cout << "Please enter the hours worked: " << endl;
-        cin >> s[i].hours;
-        cin.ignore();
-    }
-    for (int i = 0; i < 1; i++)
+        else
+            cout << "\nInvalid info. Goodbye\n";
+    } 
+    while (validEmp(*(eArray+count)) && count != nEmp);
+
+    for (int i = 0; i != nEmp; ++i) 
     {
-        if (s[i].hours <= 20 && s[i].hours >= 0)
-        {
-            s[i].total = (s[i].payRate * s[i].hours);
-        }
-        
-        else if (s[i].hours > 20 && s[i].hours <= 40)
-        {
-            s[i].total = (s[i].payRate * 20) + (s[i].payRate * (s[i].hours - 20) * 2);
-        }
-        
-        else if (s[i].hours > 40)
-        {
-            s[i].total = (s[i].payRate * 20) + ((10 * s[i].payRate) * 2) +(s[i].payRate * (s[i].hours - 40) * 3);
-        }
+        delete *(eArray+i);
     }
+    delete []eArray;
 }
 
-void print(employee s[])
+void getEmpInfo(Employeedetails *e) 
 {
-    for (int i = 0; i < 1; i++)
+    cout <<  "Enter the employee name: ";
+    cin.ignore();
+    getline(cin,e->name);
+    cout << "Enter the pay rate: ";
+    cin >> e->rateofpay;
+    cout << "Enter the hours worked: ";
+    cin >> e->hoursworked;
+}
+
+bool validEmp(Employeedetails *e) 
+{
+    if ( e -> rateofpay < 0 || e -> hoursworked < 0)
+        return false;
+    return true;
+}
+
+int pay(Employeedetails* e) 
+{
+    int r0 = 0;             // total pay
+    int r1 = e -> rateofpay;     // r1 holds pay rate
+    int r2 = e -> hoursworked;    // r2 holds hours worked
+    int r3;               // temp
+    int r4;               // holds the hours > than pay differential
+
+    // check if triple time applies
+    if ( r2 > 40) 
     {
-        cout << "##THE NATIONAL KHAN BRANCH CHECK INFO##" << endl;
-        cout << "Employee name:     " << s[i].firstName << " " << s[i].lastName <<endl;
-        cout << "Hours Worked:      " << s[i].hours <<endl;
-        cout << "Pay Rate:          $" << s[i].payRate <<endl;
-        cout << "Gross Pay:         $" << s[i].total <<endl;
+        r4 = r2 - 40;           // r4 holds hours > 40 worked
+        r3 = r1 * 3;            // triple time pay
+        r3 = r3 * r4;           // r3 holds that amount of triple time pay
+        r2 = r2 - r4;           // move hours into double time
+        r0 = r0 + r3;           // add to total pay
     }
+
+    // check if double time applies
+    if ( r2 > 20) 
+    {
+        r4 = r2 - 20;           // r4 holds hours > 20 worked
+        r3 = r1 * 2;            // double time pay
+        r3 = r3 * r4;           // r3 holds that amount of double time pay
+        r2 = r2 - r4;           // move hours into straight time
+        r0 = r0 + r3;           // add to total pay
+    }
+
+    // check if straight time applies
+    if ( r1 > 0) 
+    {
+        r3 = r1 * r2;
+        r0 = r0 + r3;
+    }
+    return r0;
+}
+
+void formatCheck(Employeedetails *e, string date) 
+{
+    cout << setw(50) << right << date << endl << endl;
+    cout << left << "Pay to the order of: " << e->name;
+    cout << setw(25 - (e->name).size()) << right  << "$ " << pay(e) << endl;
+    
+    cout << endl;
 }
 
 //Problem 3: Write a function using the following structure and prototype.
@@ -361,39 +387,157 @@ void print(employee s[])
         
 void Problem3()
 {
-    statsResult stats;
+    //Declare local variables
+    int size;
+    int elem;
     
-    cout << "Please enter the number of elements desired: ";
-    cin >> stats.num;
+    cout << "How many elements will you enter: ";
+    cin >> size;
     
-    while(stats.num<=0) //while loop num <= 0
-{
-    cout << "Invalid Entry" << endl; 
-    cout << "Please enter the number of elements desired: ";
-    cin >> stats.num;
+    // create new array and fill with user supplied elements
+    int *a = new int [size];
+        for(int i = 0; i < size; i++){
+            cout << "Enter element " << i << ": ";
+            cin >> elem;
+            a[i] = elem;
+        }
+    cout << endl;
+    
+    // print what user entered
+    cout << "You entered:\n";
+    print3(a, size, " ");
+    cout << endl << endl;
+    statsResult *sr = avgMedMode(a,size);
+    
+    // calculate average
+    int total = 0;
+    for (int i = 0; i != size; ++i)
+        total += *(a+i);
+    sr -> avg = total / size;
+    
+    printSR(sr);
+    
+    // clean up
+    delete []a;
+    delete []sr -> mode;
+    delete sr;
 }
-    getinfo(stats.array, stats.num);
-    cout << "The array is:" << endl;
+
+void mode(statsResult* s, int *a,int n)
+{
+    //Create a parallel array to sort
+    int *b = new int [n];
     
-    for(stats.i=0; stats.i < stats.num; stats.i++)
+    for (int i = 0; i !=n; ++i)
+        b[i] = a[i];
+    
+    // sort the array
+    sort(b, b+n);
+    
+    // for calculating median
+    int mid = n /2;
+    if ( n % 2 == 1)
+        s -> median = b[mid];
+    
+    else
+        s -> median = (b[mid] + b[mid-1])/2;
+
+    //Count to max frequency
+    int count = 0, maxFreq = 0;
+    for(int i=1;i<n;i++)
     {
-        cout << "Element " << (stats.i+1)<< ": "<< *(stats.array + stats.i) <<endl;
+        if(b[i]==b[i-1])
+        {
+            count++;
+            if(maxFreq<count)maxFreq = count;
+        }
+        else
+        {
+            count=0;
+        }
+    }
+    s -> maxFreq = maxFreq + 1;
+    
+    //cout<<"Max Freq = "<<maxFreq+1<<endl;
+    //Count number of modes
+    count = 0;
+    int nmodes=0;
+    for(int i=1;i<n;i++)
+    {
+        if(b[i]==b[i-1])
+        {
+            count++;
+            if(maxFreq == count)nmodes++;
+        }
+        
+        else
+        {
+            count=0;
+        }
+    }
+    s -> nModes = nmodes;
+    
+    //cout<<"Number of Modes = "<<nmodes<<endl;
+    //Declare and fill the mode array
+    s -> mode = new int[nmodes];
+    nmodes = 0;
+    count = 0;
+    for(int i = 1; i < n; i++)
+    { 
+        if(b[i] == b[i - 1])
+        {
+            count++;
+            if(maxFreq == count)
+                s -> mode[nmodes++] = b[i];
+        }
+        
+        else
+        {
+            count = 0;
+        }
+    }
+    
+    //Clean up and return
+    delete []b;
+}
+
+void printSR(statsResult* sr) 
+{
+    cout << "Median is : " << sr -> median << endl;
+    cout << "Average is : " << sr -> avg << endl;
+    cout<<"Number of modes = " << sr -> nModes << endl;
+    cout<<"The frequency of the modes = " << sr -> maxFreq << endl;
+    
+    if(sr -> nModes == 0)
+    {
+        cout << "The mode set = {0}" << endl;
+    }
+    
+    else
+    {
+        cout << "The mode set = {";
+        print3(sr -> mode, sr -> nModes - 1, ",");
+        
+        // cout<<*(sr->mode+i)<<",";
+        cout<<*(sr -> mode + (sr -> nModes - 1)) << "}" << endl;
     }
 }
 
-void getinfo(int a[], int n) //get info function stores element #s 
+statsResult *avgMedMode(int *array, int size) 
 {
-    int i; //setting i as an int
-    for (i = 0; i < n; i++) 
+    statsResult *result = new statsResult;
+    
+    mode(result, array,size);
+
+    return result;
+    
+}
+
+void print3(int *array, int size, string sep) 
+{
+    for (int i = 0; i != size; ++i) 
     {
-        do
-        {
-            cout << "Element " << (i+1 )<< ": ";
-            cin >> a[i]; 
-            if(a[i] < 0 || a[i] > 100) 
-            cout << "Invalid entry, Please enter a value between 0 and 100" << endl;
-        }
-        while(a[i] < 0 || a[i] > 100); 
+        cout << array[i] << sep;
     }
 }
 
@@ -415,7 +559,7 @@ void getinfo(int a[], int n) //get info function stores element #s
 void Problem4()
  {
     //Declare local variable
-    const int nDigit=4; //Size of array
+    const int nDigit = 4; //Size of array
     int num;
     int cont;
     int ans;
@@ -426,7 +570,7 @@ void Problem4()
     int *numArray = intArray(num);
    
     // check if number is valid. No 8s or 9s
-    if (isValid(numArray)) 
+    if (Validator(numArray)) 
     {
         /// Ask user what to do with number
         cout << "Do you want your number encrypted or decrypted." << endl;
@@ -439,15 +583,15 @@ void Problem4()
         {
             numArray = encrypt(numArray);
             cout << "Your encrypted number is: ";
-            print(numArray, nDigit);
+            print4(numArray, nDigit);
         }
         
         // user wants to decrypt number
         else if (ans == 2) 
         {
-            numArray= decrypt(numArray);
+            numArray = decrypt(numArray);
             cout << "Your decrypted number is: ";
-            print(numArray, nDigit);
+            print4(numArray, nDigit);
         }
         else
             cout << "Invalid choice: ";
@@ -456,7 +600,7 @@ void Problem4()
     // number was not valid
     else 
     {
-        print(numArray, nDigit);
+        print4(numArray, nDigit);
         cout << " is not valid." << endl;
     }
     
@@ -469,7 +613,7 @@ int *intArray(int num, int size)
 {
     // create the array to hold the numbers
     int *ret = new int [size];
-    for (int i = size-1; i >= 0; --i) 
+    for (int i = size - 1; i >= 0; --i) 
     {
         ret[i] = num % 10;
         num /= 10;
@@ -478,7 +622,7 @@ int *intArray(int num, int size)
     return ret;
 }
 
-bool isValid(int*array, int size) 
+bool Validator(int*array, int size) 
 {
     for (int i = 0; i != size; ++i)
         // only 0 to 7 are allowed
@@ -534,7 +678,7 @@ void swap(int &a, int &b)
     b = temp;
 }
 
-void print(int *array, int size) 
+void print4(int *array, int size) 
 {
     for (int i = 0; i != size; ++i) 
     {
@@ -605,7 +749,8 @@ T maxFac(T)
         
 void Problem6()
 {
-    //Display answers for problem 6
+    //Display answers for Part A
+    cout << "Part A:" << endl;
     cout << "2.125 in base 2 is 10.001" << endl;
     cout << "2.125 in base 8 is 2.1" << endl;
     cout << "2.125 in base 16 is 2.2" << endl;
@@ -613,11 +758,11 @@ void Problem6()
     cout << "0.06640625 in base 8 is 0.042" << endl;
     cout << "0.06640625 in base 16 is 0.11" << endl;
     cout << "-2.125 in float is C0080000" << endl;
-    cout << "0.06640625 in float is 3D880000" << endl;
+    cout << "0.06640625 in float is 3D880000" << endl << endl;
+    
+    //Display answers for Part B
+    cout << "Part B: " << endl;
     cout << "46666601 in decimal is 1.47455009765625" << endl;
     cout << "46666602 in decimal is 1.4745501953125" << endl;
     cout << "B9999AFE in decimal is -2.92979122605174779891967773438" << endl;
 }
-
-
-
